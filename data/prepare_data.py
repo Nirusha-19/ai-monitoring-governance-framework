@@ -1,12 +1,5 @@
 """
-Downloads a real IT-support Q&A dataset and splits it into two, non-overlapping
-groups:
-
-  - kb_documents.jsonl  -- gets embedded and indexed into Qdrant. This is what the live agent retrieves from.
-  - golden_set.jsonl    -- NEVER indexed. Held out specifically so quality degradation checks are testing genuine system behavior, not just "does it
-    still find the same indexed document."
-
-Run this first, before building the Qdrant index.
+Downloads a real IT-support Q&A dataset and splits it into two non-overlapping groups: kb_documents.jsonl and golden_set.jsonl.
 """
 import os
 import sys
@@ -22,8 +15,7 @@ from datasets import load_dataset
 random.seed(42)
 
 DATASET_NAME = "Tobi-Bueck/customer-support-tickets"
-TARGET_TOTAL_PAIRS = 30000  # confirmed: top of the 10k-30k range, dataset has 61.8k total
-
+TARGET_TOTAL_PAIRS = 30000  
 
 def find_field(example, candidates):
     for c in candidates:
@@ -42,15 +34,12 @@ def main():
 
     first = ds[0]
     print(f"  Fields: {list(first.keys())}")
-    # Confirmed real fields: 'subject', 'body' (the customer's message),
-    # 'answer' (the support agent's response).
+    # Confirmed real fields: 'subject', 'body' (the customer's message), 'answer' (the support agent's response).
     question_field = find_field(first, ["body", "question", "query"])
     answer_field = find_field(first, ["answer", "response", "resolution"])
     print(f"  Using '{question_field}' as question, '{answer_field}' as answer.")
 
-    # Filter to English only -- the dataset is genuinely bilingual (en/de),
-    # and mixing languages would complicate embedding similarity and
-    # groundedness scoring for no real benefit to this project.
+    # Filter to English only, since the dataset is genuinely bilingual (en/de).
     if "language" in first:
         ds = ds.filter(lambda ex: ex["language"] == "en")
         print(f"  {len(ds)} examples remain after filtering to English only.")
@@ -63,7 +52,7 @@ def main():
         ex = ds[i]
         q = str(ex[question_field]).strip()
         a = str(ex[answer_field]).strip()
-        if q and a and q.lower() != "none" and len(a) > 10:  # skip empty/degenerate rows
+        if q and a and q.lower() != "none" and len(a) > 10: 
             pairs.append({"id": f"doc_{i}", "question": q, "answer": a})
 
     random.shuffle(pairs)
