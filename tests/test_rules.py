@@ -1,6 +1,5 @@
 """
-Unit tests for the escalation rules engine (monitor/rules.py). These test the decision logic directly, using fabricated 
-result dicts - no live model calls, no Qdrant, no network. Fast, deterministic.
+Unit tests for the escalation rules engine. Uses fabricated result dicts, no live model calls, no Qdrant, no network. Fast, deterministic.
 """
 import sys
 import os
@@ -62,8 +61,7 @@ def test_boundary_value_at_exact_threshold_passes():
 
 
 def test_lexical_match_never_triggers_on_its_own():
-    # Confirmed design choice: lexical_match_score is logged, not a
-    # trigger, regardless of how extreme its value is.
+    # lexical_match_score is logged, not a trigger, regardless of how extreme its value is.
     result = make_result(lexical_match_score=-50.0)
     decision = evaluate(result)
     assert decision["decision"] == "served_normally"
@@ -71,7 +69,6 @@ def test_lexical_match_never_triggers_on_its_own():
 
 
 def test_semantic_consistency_never_triggers_on_its_own():
-    # Same confirmed design choice as lexical match.
     result = make_result(semantic_consistency_score=0.0)
     decision = evaluate(result)
     assert decision["decision"] == "served_normally"
