@@ -1,14 +1,6 @@
 """
-The escalation rules engine: takes one pipeline result (from
-rag/generate.py's run_pipeline) and decides whether it's healthy or
-needs review.
-
-Thresholds were initially derived from a 150-question golden-set calibration run (scripts/calibrate_thresholds.py). Running a test
-harness with freshly-phrased, realistic questions (scripts/test_harness.py) revealed those initial thresholds were too strict: golden-set questions 
-are verbatim historical ticket text, which retrieves more strongly than naturally-phrased live questions asking about the same real topics. The
-rerank threshold below was re-derived from that live-traffic evidence instead. Semantic consistency was dropped as an active trigger after the
-same test showed it doesn't cleanly separate good from bad answers in practice (overlapping ranges for genuinely good vs. genuinely bad
-responses) -- it remains logged for reference.
+The escalation rules engine takes one pipeline result and decides whether it needs review. Thresholds and the reasoning behind them
+are explained in the README's Escalation Engine section.
 """
 
 THRESHOLDS = {
