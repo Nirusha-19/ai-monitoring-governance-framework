@@ -1,5 +1,5 @@
 """
-FastAPI service exposing the full pipeline as a real, callable endpoint. Every request runs: retrieve -> rerank -> generate -> analyze -> evaluate -> log, then returns the answer plus the full decision breakdown.
+FastAPI service exposing the full pipeline as a real, callable endpoint.
 """
 import sys
 import os
