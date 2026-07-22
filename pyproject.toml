@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-monitoring-framework"
+version = "0.1.0"
+description = "A post-deployment observability and governance layer for LLM-powered systems"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Nirusha Mantralaya Ramesh"}
+]
+dependencies = [
+    "sentence-transformers>=3.0.0",
+    "qdrant-client>=1.9.0",
+    "datasets>=2.19.0",
+    "ollama>=0.2.0",
+    "fastapi>=0.110.0",
+    "uvicorn>=0.29.0",
+    "sqlite-utils>=3.36",
+    "structlog>=24.1.0",
+    "scipy>=1.13.0",
+    "scikit-learn>=1.4.0",
+    "pandas>=2.2.0",
+    "requests>=2.31.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["monitor*", "rag*", "api*"]

@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  qdrant:
+    image: qdrant/qdrant
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./outputs:/data
+    environment:
+      - GF_INSTALL_PLUGINS=frser-sqlite-datasource
+    depends_on:
+      - qdrant
+
+volumes:
+  qdrant_storage:
