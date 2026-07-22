@@ -1,14 +1,6 @@
 """
-Runs a random sample from the held-out golden set through the full pipeline, and reports the real distribution of all five signals
-(lexical match, semantic consistency, answer relevance, source attribution, is_refusal) for genuinely known-good, in-scope questions.
-
-This is the actual calibration step: any thresholds get set based on where these real, legitimate scores land -- not guessed, not based on
-the two hand-picked test questions used during development. It also directly answers the open question from testing: does semantic
-consistency separate good/bad answers as well as answer relevance does,
-at real scale -- not just on two examples.
-
-Run this once now (150 questions, ~45-60 min at current latency), then again later if the knowledge base or model changes and thresholds need
-re-deriving.
+Runs a sample from the golden set through the full pipeline and reports the real score distribution for known-good questions.
+This is the actual calibration step, thresholds get set from these real scores, not guessed and not based on two hand-picked examples.
 """
 import os
 import sys
