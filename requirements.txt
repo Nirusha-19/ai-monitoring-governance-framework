@@ -1,5 +1,3 @@
-# Editable install with no version control (ai-monitoring-framework==0.1.0)
--e /Users/nirushamantralayaramesh/Documents/ai-monitoring-framework
 aiohappyeyeballs==2.7.1
 aiohttp==3.14.1
 aiosignal==1.4.0
