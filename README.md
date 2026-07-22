@@ -8,7 +8,7 @@ Wraps a standard RAG pipeline in a multi-signal analysis layer and an escalation
 
 A RAG pipeline, by itself, returns an answer with no indication of whether that answer is well grounded, actually addresses the question, or is a refusal. There's no built-in way to know if it's wrong. This project builds that layer. Five signals scored on every response, an escalation engine that flags the risky ones, and a live Grafana dashboard with three panels, decisions over time, flag rate, and latency by stage, demonstrated on a self hosted IT support RAG agent running entirely on local hardware.
 
-## 🔍 What It Does
+## 🔍 What It Does?
 
 - Runs a full local RAG pipeline, using bi encoder retrieval, cross encoder reranking, and Qwen3 8B generation, with no cloud APIs
 - Scores every generated answer on five signals, covering how relevant the retrieved source is, how relevant the answer is to the question, whether the model refused to answer, word overlap with the source, and meaning consistency with the source
@@ -27,17 +27,17 @@ A RAG pipeline, by itself, returns an answer with no indication of whether that 
 
 ## 🖥️ How It Works, End to End
 
-**Retrieval.** A query is embedded with `bge-small-en-v1.5` (bi encoder) and searched against Qdrant for the top 30 candidates. `ms-marco-MiniLM-L6-v2` (cross encoder) reranks those candidates for precision, producing `rerank_score`.
+**Retrieval:** A query is embedded with `bge-small-en-v1.5` (bi encoder) and searched against Qdrant for the top 30 candidates. `ms-marco-MiniLM-L6-v2` (cross encoder) reranks those candidates for precision, producing `rerank_score`.
 
-**Generation.** The best matched candidate and the question are passed to Qwen3 8B, running locally via Ollama, with `temperature=0` for reproducible answers.
+**Generation:** The best matched candidate and the question are passed to Qwen3 8B, running locally via Ollama, with `temperature=0` for reproducible answers.
 
-**Scoring.** Every generated answer is analyzed on five signals, `rerank_score`, `answer_relevance_score`, `is_refusal`, `lexical_match_score`, and `semantic_consistency_score`, before any decision is made.
+**Scoring:** Every generated answer is analyzed on five signals, `rerank_score`, `answer_relevance_score`, `is_refusal`, `lexical_match_score`, and `semantic_consistency_score`, before any decision is made.
 
-**Escalation.** The rules engine checks three of those five signals against calibrated thresholds and classifies the response as `served_normally` or `flagged_for_review`.
+**Escalation:** The rules engine checks three of those five signals against calibrated thresholds and classifies the response as `served_normally` or `flagged_for_review`.
 
-**Logging.** Every field from every request, structlog formatted, is written to a SQLite `execution_logs` table.
+**Logging:** Every field from every request, structlog formatted, is written to a SQLite `execution_logs` table.
 
-**Dashboarding.** Grafana reads that same SQLite file live, showing decisions over time, flag rate, and latency by pipeline stage.
+**Dashboarding:** Grafana reads that same SQLite file live, showing decisions over time, flag rate, and latency by pipeline stage.
 
 ## 📈 The Multi-Signal Analysis Layer
 
