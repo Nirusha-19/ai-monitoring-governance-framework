@@ -1,12 +1,6 @@
 """
-The retrieval half of the RAG pipeline. Given a question, this:
-
-  1. Embeds it with bge-small-en-v1.5 (bi-encoder stage)
-  2. Searches Qdrant for the top TOP_K_RETRIEVE candidates (fast, approximate)
-  3. Reranks those candidates with a cross-encoder (slow, precise) to pick
-     the single best match
-
-Deliberately does NOT decide whether the match is "good enough" -- that judgment belongs to groundedness scoring, after generation, not here.
+The retrieval 'half' of the RAG pipeline. Embeds the question, searches Qdrant for top candidates, then reranks them with a cross-encoder 
+to pick the single best match. Does not judge whether that match is good enough, that happens later, after generation.
 """
 import sys
 import os
