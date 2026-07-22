@@ -1,14 +1,6 @@
 """
-Retrieve + rerank (pipeline.py) -> generate an answer -> analyze it along signals, instead of one blended "groundedness" score:
-
-  0. Rerank score - how relevant the retrieved document is to the question (computed in pipeline.py, carried through here; this is
-     the one signal computed BEFORE generation, not after)
-  1. Lexical match - word overlap between answer and context (reranker,reused). Logged for diagnostic reference only - does not drive the
-     escalation decision (see monitor/rules.py): calibration showed it swings widely (-10.6 to 9.9) even for known-good answers.
-  2. Semantic consistency - meaning similarity, answer vs. context
-  3. Answer relevance - meaning similarity, answer vs. the question
-  4. Is refusal - did the model actually answer, or decline to help?
-
+Retrieve, rerank, generate, then analyze the answer on five signals instead of one blended "groundedness" score. The signals, and the
+reasoning behind this design, are explained in the README.
 """
 import sys
 import os
