@@ -1,9 +1,5 @@
 """
-Reads kb_documents.jsonl, embeds every document with bge-small-en-v1.5, and uploads all of them into a Qdrant collection. This builds the actual
-searchable vector index the retrieval pipeline queries against.
-
-Run this once, after prepare_data.py, and before the RAG pipeline or API.
-Re-run it if the knowledge base changes.
+Embeds kb_documents.jsonl with bge-small-en-v1.5 and uploads it into Qdrant, building the searchable index the pipeline queries against.
 """
 import os
 import sys
