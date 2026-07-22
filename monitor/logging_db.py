@@ -1,6 +1,5 @@
 """
-Writes a permanent, structured trace record for every pipeline run into a local SQLite database. This is the audit trail: which tools ran, what data
-was retrieved, all four analysis signals, the rules-engine decision, and why.
+Writes a permanent, structured trace record for every pipeline run into a local SQLite database. This is the audit trail.
 """
 import os
 import sys
@@ -15,10 +14,6 @@ import sqlite_utils
 
 os.makedirs(OUTPUTS_DIR, exist_ok=True)
 
-# check_same_thread=False: FastAPI runs each request in its own worker
-# thread, but a default sqlite3 connection only allows use from the
-# thread that created it. This explicitly permits cross-thread use --
-# safe here since sqlite_utils serializes access internally.
 _connection = sqlite3.connect(TRACE_DB_PATH, check_same_thread=False)
 _db = sqlite_utils.Database(_connection)
 _log_table = _db["execution_logs"]
