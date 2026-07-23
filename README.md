@@ -1,4 +1,4 @@
-# AI Monitoring and Governance Framework, Post Deployment Observability for RAG Systems
+# RAG Monitoring and Governance Framework
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue) ![FastAPI](https://img.shields.io/badge/FastAPI-teal) ![Qdrant](https://img.shields.io/badge/Qdrant-red) ![Grafana](https://img.shields.io/badge/Grafana-orange) ![Ollama](https://img.shields.io/badge/Ollama-black)
 
@@ -10,7 +10,7 @@ A RAG pipeline, by itself, returns an answer with no indication of whether that 
 
 ## 🔍 What It Does?
 
-- Runs a full local RAG pipeline, using bi encoder retrieval, cross encoder reranking, and Qwen3 8B generation, with no cloud APIs
+- Runs a full local RAG pipeline, using bi-encoder retrieval, cross-encoder reranking, and Qwen3 8B generation, with no cloud APIs
 - Scores every generated answer on five signals, covering how relevant the retrieved source is, how relevant the answer is to the question, whether the model refused to answer, word overlap with the source, and meaning consistency with the source
 - Flags low-confidence or risky answers automatically, using thresholds derived from real test data, not guessed
 - Logs every request, decision, and score permanently to SQLite, visualized live in Grafana
@@ -27,7 +27,7 @@ A RAG pipeline, by itself, returns an answer with no indication of whether that 
 
 ## 🖥️ How It Works, End to End
 
-**Retrieval:** A query is embedded with `bge-small-en-v1.5` (bi encoder) and searched against Qdrant for the top 30 candidates. `ms-marco-MiniLM-L6-v2` (cross encoder) reranks those candidates for precision, producing `rerank_score`.
+**Retrieval:** A query is embedded with `bge-small-en-v1.5` (bi-encoder) and searched against Qdrant for the top 30 candidates. `ms-marco-MiniLM-L6-v2` (cross-encoder) reranks those candidates for precision, producing `rerank_score`.
 
 **Generation:** The best matched candidate and the question are passed to Qwen3 8B, running locally via Ollama, with `temperature=0` for reproducible answers.
 
