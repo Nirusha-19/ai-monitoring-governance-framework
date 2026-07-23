@@ -1,13 +1,7 @@
 """
-Retrieval quality benchmark: Precision@K, Recall@K, and MRR, computed
-against the held-out golden set.
-
-Ground-truth limitation, stated explicitly: this project has no human-annotated relevance judgments (which document is "truly" relevant
-to which question). Instead, this uses SILVER-STANDARD labels: a candidate is automatically labeled "relevant" if its answer is
-semantically similar (cosine similarity above SILVER_LABEL_THRESHOLD) to the golden set's own known-correct answer for that question. This is a
-standard, real substitute for human annotation at scale, but it is an approximation, not ground truth -- disclosed here and in the README.
-
-Run this once, after the knowledge base is built and stable.
+Retrieval quality benchmark: Precision@K, Recall@K, and MRR, computed against the held-out golden set.
+No human-annotated relevance judgments exist for this project. Instead, a candidate is labeled relevant if it's similar enough to the
+golden set's known-correct answer. This is a silver-standard approximation, not ground truth, disclosed here and in the README.
 """
 import os
 import sys
@@ -40,9 +34,8 @@ def cosine_similarity(vec_a, vec_b):
 
 def get_candidates_with_silver_labels(question: str, known_correct_answer: str):
     """
-    Retrieves the top TOP_K_RETRIEVE candidates (bi-encoder search only --
-    no reranking here, since we're benchmarking retrieval quality itself),
-    and labels each as relevant/not relevant against the golden answer.
+    Retrieves the top candidates via bi-encoder search only, no reranking, since this benchmarks retrieval quality itself. Labels each candidate
+    relevant or not against the golden answer.
     """
     query_vector = _embedder.encode(question).tolist()
     hits = _qdrant.query_points(
@@ -74,7 +67,7 @@ def precision_at_k(labeled_candidates, k):
 def recall_at_k(labeled_candidates, k):
     total_relevant = sum(1 for c in labeled_candidates if c["is_relevant"])
     if total_relevant == 0:
-        return None  # no relevant docs in the whole pool -- undefined, not zero
+        return None  
     top_k = labeled_candidates[:k]
     found = sum(1 for c in top_k if c["is_relevant"])
     return found / total_relevant
@@ -84,7 +77,7 @@ def reciprocal_rank(labeled_candidates):
     for i, c in enumerate(labeled_candidates):
         if c["is_relevant"]:
             return 1.0 / (i + 1)
-    return 0.0  # no relevant document found anywhere in the retrieved pool
+    return 0.0  
 
 
 def main():
