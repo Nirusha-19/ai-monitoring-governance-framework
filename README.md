@@ -93,7 +93,7 @@ Every model runs on this machine, covering retrieval, reranking, and generation.
 ## 📁 Project Structure
 
 ```
-ai-monitoring-framework/
+rag-monitoring-governance-framework/
 ├── README.md
 ├── requirements.txt
 ├── docker-compose.yml               ← one-command startup for Qdrant and Grafana
