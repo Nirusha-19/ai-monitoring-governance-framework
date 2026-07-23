@@ -1,7 +1,6 @@
 """
-Simulates realistic traffic against the running FastAPI /ask endpoint: normal in-scope questions, deliberately out-of-scope questions, and a
-mix designed to exercise every decision path the monitoring framework can produce. Requires the API server to already be running
-(python -m uvicorn api.main:app --reload) in another terminal.
+Simulates realistic traffic against the running FastAPI /ask endpoint, normal questions, out-of-scope questions, and edge cases, covering
+every decision path the framework can produce.
 """
 import requests
 import time
